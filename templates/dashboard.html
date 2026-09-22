@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2>Dashboard</h2>
+        <p class="text-muted mb-0">Welcome, {{ current_user.username }}.</p>
+    </div>
+    <a href="{{ url_for('upload') }}" class="btn btn-dark">Upload File</a>
+</div>
+
+<div class="card shadow-sm mb-4">
+<div class="card-body">
+<h5>Your Files</h5>
+<div class="table-responsive">
+<table class="table align-middle">
+<thead><tr><th>File</th><th>Size</th><th>SHA-256</th><th>Uploaded</th><th>Actions</th></tr></thead>
+<tbody>
+{% for r in records %}
+<tr>
+<td>{{ r.original_filename }}</td>
+<td>{{ "%.2f"|format(r.file_size / 1024) }} KB</td>
+<td><code class="small">{{ r.sha256_hash }}</code></td>
+<td>{{ r.uploaded_at.strftime('%Y-%m-%d %H:%M') }}</td>
+<td class="text-nowrap">
+<a class="btn btn-sm btn-outline-primary" href="{{ url_for('verify', file_id=r.id) }}">Verify</a>
+<a class="btn btn-sm btn-outline-secondary" href="{{ url_for('download', file_id=r.id) }}">Download</a>
+<form class="d-inline" method="post" action="{{ url_for('delete_file', file_id=r.id) }}" onsubmit="return confirm('Delete this file?');">
+<button class="btn btn-sm btn-outline-danger">Delete</button>
+</form>
+</td>
+</tr>
+{% else %}
+<tr><td colspan="5" class="text-center text-muted">No files uploaded yet.</td></tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+</div></div>
+
+<div class="card shadow-sm">
+<div class="card-body">
+<h5>Recent Activity</h5>
+<ul class="list-group list-group-flush">
+{% for a in activities %}
+<li class="list-group-item px-0"><strong>{{ a.action }}</strong> — {{ a.details }} <span class="text-muted small">({{ a.created_at.strftime('%Y-%m-%d %H:%M') }})</span></li>
+{% else %}
+<li class="list-group-item px-0 text-muted">No activity yet.</li>
+{% endfor %}
+</ul>
+</div></div>
+{% endblock %}

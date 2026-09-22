@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Verify File{% endblock %}
+{% block content %}
+<div class="card shadow-sm">
+<div class="card-body p-4">
+<h3>Integrity Verification</h3>
+<p><strong>File:</strong> {{ record.original_filename }}</p>
+<p><strong>Stored SHA-256:</strong><br><code class="hash">{{ record.sha256_hash }}</code></p>
+<p><strong>Current SHA-256:</strong><br><code class="hash">{{ current_hash }}</code></p>
+{% if is_valid %}
+<div class="alert alert-success"><strong>VALID:</strong> The current file matches the stored SHA-256 hash.</div>
+{% else %}
+<div class="alert alert-danger"><strong>MODIFIED:</strong> The current file does not match the stored SHA-256 hash.</div>
+{% endif %}
+<form method="post">
+<button class="btn btn-dark">Record Verification in Audit Log</button>
+<a class="btn btn-outline-secondary" href="{{ url_for('dashboard') }}">Back</a>
+</form>
+</div></div>
+{% endblock %}

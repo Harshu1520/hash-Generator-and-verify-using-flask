@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<div class="p-5 mb-4 bg-light rounded-3 shadow-sm">
+    <h1 class="display-6 fw-bold">File Integrity Verification System</h1>
+    <p class="lead">Generate SHA-256 hashes and verify whether uploaded files have been modified.</p>
+    <a class="btn btn-dark btn-lg" href="{{ url_for('register') }}">Get Started</a>
+</div>
+<div class="row g-4">
+    <div class="col-md-4"><div class="card h-100 shadow-sm"><div class="card-body"><h5>SHA-256</h5><p>Generate a cryptographic hash for every uploaded file.</p></div></div></div>
+    <div class="col-md-4"><div class="card h-100 shadow-sm"><div class="card-body"><h5>Verification</h5><p>Compare a new hash with the original stored hash.</p></div></div></div>
+    <div class="col-md-4"><div class="card h-100 shadow-sm"><div class="card-body"><h5>Audit Log</h5><p>Track upload, verification, and deletion activity.</p></div></div></div>
+</div>
+{% endblock %}
